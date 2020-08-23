@@ -32,3 +32,7 @@ var gameOver = function() {   // функция отрисовки Конец и
     ctx.fillText("Конец игры",width/2,height/2);
 };
 
+var Block = function(col, row) {
+    this.col = col;
+    this.row = row;
+};
