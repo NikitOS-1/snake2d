@@ -32,13 +32,7 @@ let gameOver = function() {   // функция отрисовки Конец и
     ctx.fillText("Конец игры",width/2,height/2);
 };
 
-let Block = function(col, row) {
+let Block = function(col, row) { //констуктор Block
     this.col = col;
     this.row = row;
-};
-Block.prototype.drawSquare = function (color) {
-    let x = this.col * blockSize;
-    let y = this.row * blockSize;
-    ctx.fillStyle = color;
-    ctx.fillRect(x,y,blockSize,blockSize);
 };
