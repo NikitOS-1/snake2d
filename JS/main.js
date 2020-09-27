@@ -1,3 +1,5 @@
+const { func } = require("prop-types");
+
 let canvas = document.getElementById("canvas"); //  получили элемент canvas
 let ctx = canvas.getContext("2d"); //   используем элемент canvas в контексте 2D
 let width = canvas.width; //    ширина холста
@@ -100,4 +102,21 @@ Snake.prototype.move = function () { //     перемешение
     } else {
         this.segments.pop(); // убрать сегмент хвоста
     };
+};
+Snake.prototype.checkCollision = function (head) { //    проверка на столкновение с собой или стеной
+    let leftCollision = (head.col === 0);
+    let topCollision = (head.row === 0);
+    let rightCollision = (head.col === widthInBlocks - 1);
+    let bottomCollision = (head.row === heightInBlocks - 1);
+
+    let wallCollision = leftCollision || topCollision || rightCollision || bottomCollision;
+    let selfCollision = false;
+
+    for (i = 0; i < this.segments.length; i++) {
+        if (head.equal(this.segments[i])) {
+            selfCollision = true;
+        };
+    };
+
+    return wallCollision || selfCollision;
 };
