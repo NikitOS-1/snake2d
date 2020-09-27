@@ -1,5 +1,3 @@
-const { func } = require("prop-types");
-
 let canvas = document.getElementById("canvas"); //  получили элемент canvas
 let ctx = canvas.getContext("2d"); //   используем элемент canvas в контексте 2D
 let width = canvas.width; //    ширина холста
@@ -39,7 +37,7 @@ let circle = function (x, y, radius, fillCircle) { //   функция отри�
     fillCircle ? ctx.fill() : ctx.stroke();
 };
 
-let Block = function (col, row) {  //   конструктор Block
+let Block = function (col, row) {  //               конструктор Block
     this.col = col;
     this.row = row;
 };
@@ -120,3 +118,52 @@ Snake.prototype.checkCollision = function (head) { //    проверка на �
 
     return wallCollision || selfCollision;
 };
+Snake.prototype.setDirection = function (newDirection) {    //  проверка на ввод не допустимого направления
+    if (this.direction === 'up' && newDirection === 'down') {
+        return;
+    } else if (this.direction === 'right' && newDirection === 'left') {
+        return;
+    } else if (this.direction === 'down' && newDirection === 'up') {
+        return;
+    } else if (this.direction === 'left' && newDirection === 'right') {
+        return;
+    };
+    this.nextDirection = newDirection;
+};
+
+let Apple = function () {   //  конструктор яблока
+    this.position = new Block(10, 10);
+};
+Apple.prototype.draw = function () {  //    отрисовка яблока 
+    this.position.drawCircle('LimeGreen');
+};
+Apple.prototype.move = function () {    //  случаное перемешение яблока
+    let randomCol = Math.floor(Math.random() * (widthInBlocks - 2)) + 1;
+    let randomRow = Math.floor(Math.random() * (widthInBlocks - 2)) + 1;
+    this.position = new Block(randomCol, randomRow);
+};
+
+let snake = new Snake();    //  создаем объект змейку
+let apple = new Apple();    //  создаем объект яблоко
+
+let intervalId = setInterval(function () {  //  запускаем функцию анимации
+    ctx.clearRect(0, 0, width, height);
+    drawScore();
+    snake.move();
+    snake.draw();
+    apple.draw();
+    drawBorder();
+}, 100);
+
+let direction = {   //  преобразование кода клавиш в строки // обозначающие направление движения
+    37: 'left',
+    38: 'up',
+    39: 'right',
+    40: 'down'
+};
+$('body').keydown(function (event) {    //  обработчик событий 
+    let newDirection = directions[event.keyCode];
+    if (newDirection !== undefined) {
+        snake.setDirection(newDirection);
+    };
+});
