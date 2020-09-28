@@ -161,8 +161,8 @@ let direction = {   //  преобразование кода клавиш в с
     39: 'right',
     40: 'down'
 };
-$('body').keydown(function (event) {    //  обработчик событий 
-    let newDirection = directions[event.keyCode];
+$("body").keydown(function (event) {    //  обработчик событий 
+    let newDirection = direction[event.keyCode];
     if (newDirection !== undefined) {
         snake.setDirection(newDirection);
     };
